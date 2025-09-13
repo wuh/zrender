@@ -1271,6 +1271,10 @@
             oldCoordTheSame = oldCoordTheSame && oldSrcCoords && x === oldSrcCoords[ii] && y === oldSrcCoords[ii + 1];
             destCoords.push(markers[i].offsetLeft, markers[i].offsetTop);
         }
+        if (!oldCoordTheSame) {
+            delete saved.invTrans;
+            delete saved.trans;
+        }
         return (oldCoordTheSame && transformer)
             ? transformer
             : (saved.srcCoords = srcCoords,

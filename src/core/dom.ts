@@ -154,6 +154,13 @@ function preparePointerTransformer(markers: HTMLDivElement[], saved: SavedInfo, 
         oldCoordTheSame = oldCoordTheSame && oldSrcCoords && x === oldSrcCoords[ii] && y === oldSrcCoords[ii + 1];
         destCoords.push(markers[i].offsetLeft, markers[i].offsetTop);
     }
+    /**
+     * 当根据一个srcCoords缓存了invTrans和trans，然后srcCoords变化了，重新缓存invTrans，trans还是老的。然后下次命中缓存获取trans其实是错的。
+     */
+    if (!oldCoordTheSame) {
+        delete saved.invTrans;
+        delete saved.trans;
+    }
     // Cache to avoid time consuming of `buildTransformer`.
     return (oldCoordTheSame && transformer)
         ? transformer
